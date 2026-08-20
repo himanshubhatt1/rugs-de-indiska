@@ -1,0 +1,502 @@
+/* ============================================================
+   RUGS DE INDISKA — Craftsmanship
+   Page-specific styles. Loads after styles.css and reuses its
+   tokens, buttons, reveal classes, header, CTA band and footer.
+   ============================================================ */
+
+/* ============================================================
+   BANNER
+   ============================================================ */
+.craft-banner{
+  position:relative;
+  min-height:clamp(380px, 58vh, 620px);
+  display:flex;
+  align-items:flex-end;
+  overflow:hidden;
+  color:#fff;
+  background:var(--sand);
+}
+/* 10% overhang each side keeps the 0.14 drift from exposing an edge */
+.craft-banner__media{ position:absolute; inset:-10% 0; will-change:transform; }
+.craft-banner__media img{
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center 58%;
+  animation:craftIn 2.2s var(--ease) both;
+}
+@keyframes craftIn{ from{ transform:scale(1.09); } to{ transform:none; } }
+
+.craft-banner__inner{
+  position:relative;
+  z-index:2;
+  padding-block:clamp(48px, 7vw, 86px);
+  max-width:min(var(--shell), 100%);
+}
+.craft-banner__inner .eyebrow{
+  font-size:10px;
+  letter-spacing:.3em;
+  margin-bottom:18px;
+  opacity:0;
+  animation:craftUp .9s var(--ease) .15s forwards;
+}
+.craft-banner__title{
+  font-family:var(--ff-display);
+  font-weight:300;
+  font-size:clamp(32px, 5vw, 68px);
+  line-height:1.1;
+  margin-bottom:20px;
+  text-shadow:0 2px 34px rgba(0,0,0,.32);
+  opacity:0;
+  animation:craftUp 1s var(--ease) .3s forwards;
+}
+.craft-banner__copy{
+  max-width:52ch;
+  font-size:14.5px;
+  line-height:1.85;
+  color:rgba(255,255,255,.82);
+  opacity:0;
+  animation:craftUp 1s var(--ease) .46s forwards;
+}
+@keyframes craftUp{
+  from{ opacity:0; transform:translateY(18px); }
+  to  { opacity:1; transform:none; }
+}
+
+/* ============================================================
+   01 · GENESIS — centre-rail stages
+   ============================================================ */
+.genesis{ overflow:hidden; }
+.genesis .shell{ position:relative; z-index:1; }
+.genesis .watermark{ width:min(760px, 66%); }
+
+.stages{ position:relative; max-width:1080px; margin-inline:auto; }
+.stages__rail{
+  position:absolute;
+  left:50%; top:0; bottom:0;
+  width:1px;
+  transform:translateX(-50%);
+  background:var(--hair);
+}
+.stages__rail i{
+  position:absolute; inset:0 auto auto 0;
+  width:100%; height:0;
+  background:var(--gold);
+  transition:height .25s linear;
+}
+
+.stage{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:clamp(28px, 4vw, 64px);
+  padding-block:clamp(26px, 3.4vw, 48px);
+}
+/* text sits against the rail on whichever side it lands */
+.stage__text{ text-align:right; }
+.stage--flip .stage__text{ text-align:left; }
+
+.stage__num{
+  font-size:9.5px;
+  font-weight:500;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:12px;
+}
+.stage__title{
+  font-family:var(--ff-display);
+  font-weight:400;
+  font-size:clamp(22px, 2.5vw, 34px);
+  line-height:1.2;
+  margin-bottom:16px;
+}
+.stage__copy{
+  font-size:13.5px;
+  line-height:1.85;
+  color:var(--muted);
+  max-width:42ch;
+  margin-left:auto;
+}
+.stage--flip .stage__copy{ margin-left:0; margin-right:auto; }
+
+.stage__media{
+  position:relative;
+  aspect-ratio:4 / 3.4;
+  overflow:hidden;
+  background:var(--sand);
+}
+.stage__media img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.stage__media.is-visible:hover img{ transform:scale(1.05); }
+
+/* ============================================================
+   02 · ELEMENTS — mosaic
+   ============================================================ */
+.elements{ background:var(--cream); }
+
+.mosaic{
+  display:grid;
+  grid-template-columns:0.92fr 1fr 1fr;
+  grid-auto-rows:minmax(0, 1fr);
+  gap:clamp(12px, 1.4vw, 20px);
+}
+/* the silk column runs the full height of the two rows beside it */
+.mosaic__tall{
+  position:relative;
+  grid-row:span 2;
+  overflow:hidden;
+  background:var(--sand);
+  min-height:clamp(360px, 40vw, 560px);
+}
+.mosaic__tall img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.mosaic__tall.is-visible:hover img{ transform:scale(1.05); }
+.mosaic__tall figcaption{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  padding:clamp(20px, 2.2vw, 32px);
+  color:#fff;
+  background:linear-gradient(180deg, rgba(20,13,7,0), rgba(20,13,7,.78));
+}
+.mosaic__tall h3{
+  font-family:var(--ff-display);
+  font-weight:400;
+  font-size:clamp(20px, 2vw, 27px);
+  margin-bottom:6px;
+}
+.mosaic__tall p{
+  font-size:12.5px;
+  line-height:1.7;
+  color:rgba(255,255,255,.78);
+  max-width:26ch;
+}
+
+.mosaic__card{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:#fff;
+  padding:clamp(24px, 2.6vw, 38px);
+  transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+}
+.mosaic__card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 24px 50px -34px rgba(36,26,18,.4);
+}
+.mosaic__title{
+  font-family:var(--ff-display);
+  font-weight:400;
+  font-size:clamp(19px, 1.9vw, 25px);
+  margin-bottom:12px;
+}
+.mosaic__copy{
+  font-size:12.5px;
+  line-height:1.8;
+  color:var(--muted);
+  margin-bottom:18px;
+}
+.mosaic__card .link-arrow{ align-self:flex-start; font-size:9.5px; }
+
+.mosaic__img{
+  overflow:hidden;
+  background:var(--sand);
+  min-height:clamp(170px, 19vw, 270px);
+}
+.mosaic__img img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.mosaic__img.is-visible:hover img{ transform:scale(1.05); }
+
+/* ============================================================
+   03 · KNOTTING
+   ============================================================ */
+.knot-grid{
+  display:grid;
+  grid-template-columns:0.85fr 1fr;
+  align-items:center;
+  gap:clamp(36px, 6vw, 96px);
+}
+
+.knot-visual{ position:relative; padding-bottom:clamp(46px, 6vw, 72px); }
+.knot-visual__media{
+  aspect-ratio:16 / 10;
+  overflow:hidden;
+  background:var(--sand);
+  max-width:82%;
+}
+.knot-visual__media img{ width:100%; height:100%; object-fit:cover; }
+
+/* card steps out from under the photograph, overlapping its lower right */
+.knot-quote{
+  position:absolute;
+  right:0; bottom:0;
+  width:min(74%, 330px);
+  background:#fff;
+  /* border:1px solid var(--hair);
+  border-left:2px solid var(--gold); */
+  padding:clamp(18px, 2vw, 26px);
+  /* font-family:var(--ff-display); */
+  font-style:italic;
+  font-size:clamp(14px, 1.3vw, 16px);
+  line-height:1.65;
+  /* color:var(--ink-soft); */
+  box-shadow:0 24px 50px -36px rgba(36,26,18,.45);
+}
+
+.knot-text .eyebrow{ margin-bottom:16px; }
+.knot-text .h2{ margin-bottom:24px; }
+.knot-text .lede{ font-size:14.5px; margin-bottom:36px; }
+
+.stats{ display:grid; gap:24px; }
+.stat{ display:flex; align-items:baseline; gap:18px; }
+.stat__figure{
+  flex:0 0 auto;
+  min-width:74px;
+  font-family:var(--ff-display);
+  font-weight:400;
+  font-size:clamp(28px, 3vw, 40px);
+  line-height:1;
+  color:var(--gold);
+}
+.stat__figure span{ font-size:.6em; }
+.stat__label{
+  font-size:9.5px;
+  font-weight:500;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:5px;
+}
+.stat__copy{
+  font-size:12.5px;
+  line-height:1.75;
+  color:var(--muted);
+  max-width:40ch;
+}
+
+/* ============================================================
+   04 · ARTISANS
+   ============================================================ */
+.artisans{
+  background:var(--navy);
+  color:rgba(255,255,255,.74);
+  overflow:hidden;
+}
+
+/* pattern_2.png is white line art on transparency -- made for a dark ground, so
+   it takes plain opacity. The light-section .watermark multiplies, which would
+   erase it entirely against the navy. */
+.artisan-text{ position:relative; }
+.artisan-text > *:not(.watermark){ position:relative; z-index:1; }
+.watermark--dark{
+  mix-blend-mode:normal;
+  opacity:.07;
+  width:min(660px, 122%);
+  background-image:url("images/pattern_2.png");
+}
+.artisan-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:clamp(36px, 7vw, 112px);
+}
+.artisans .eyebrow{ color:var(--gold-lt); margin-bottom:16px; }
+.artisans .eyebrow .dash{ color:var(--gold-lt); }
+.artisans .h2{ color:#fff; margin-bottom:24px; }
+.artisans .uline::after{ background:rgba(201,168,106,.6); }
+
+.artisan-copy{
+  font-size:14.5px;
+  line-height:1.9;
+  color:rgba(255,255,255,.7);
+  max-width:52ch;
+  margin-bottom:38px;
+}
+.artisan-facts{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:clamp(20px, 3vw, 46px);
+  max-width:520px;
+}
+.artisan-facts > li{ padding-top:2px; }
+.artisan-facts__label{
+  font-family:var(--ff-display);
+  font-size:19px;
+  color:var(--gold-lt);
+  margin-bottom:10px;
+}
+.artisan-facts__copy{
+  font-size:12.5px;
+  line-height:1.75;
+  color:rgba(255,255,255,.6);
+}
+
+.artisan-media{
+  aspect-ratio:1 / 1;
+  overflow:hidden;
+  background:rgba(255,255,255,.06);
+}
+.artisan-media img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.artisan-media.is-visible:hover img{ transform:scale(1.05); }
+
+/* ============================================================
+   05 · THE LAND
+   ============================================================ */
+.land-grid{
+  display:grid;
+  grid-template-columns:1fr 1.95fr;
+  align-items:start;
+  gap:clamp(24px, 2.6vw, 40px);
+}
+.land-text .eyebrow{ margin-bottom:16px; }
+.land-text .h2{ margin-bottom:24px; }
+.land-text .lede{ font-size:14.5px; margin-bottom:28px; }
+
+.land-quote__pin{
+  display:block;
+  width:15px; height:15px;
+  margin-bottom:14px;
+  color:var(--gold);
+}
+.land-quote__pin svg{ width:100%; height:100%; display:block; }
+
+.land-quote{
+  border-left:2px solid var(--gold);
+  background:var(--cream);
+  padding:clamp(18px, 2vw, 26px);
+  font-family:var(--ff-display);
+  font-style:italic;
+  font-size:clamp(14px, 1.3vw, 17px);
+  line-height:1.7;
+  color:var(--ink-soft);
+}
+.land-quote cite{
+  display:block;
+  margin-top:14px;
+  font-family:var(--ff-ui);
+  font-style:normal;
+  font-size:9.5px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--muted-lt);
+}
+
+.land-strip{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:clamp(10px, 1.2vw, 18px);
+}
+/* wide establishing shot on top, two details beneath it */
+.land-strip__wide{ grid-column:1 / -1; aspect-ratio:1085 / 420; }
+.land-strip figure{
+  /* aspect-ratio:519 / 357; */
+  overflow:hidden;
+  background:var(--sand);
+}
+.land-strip img{
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease);
+}
+.land-strip figure.is-visible:hover img{ transform:scale(1.06); }
+
+/* ============================================================
+   COMMITMENT
+   ============================================================ */
+.commitment{ background:var(--cream); }
+
+.promise-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:clamp(24px, 3.5vw, 60px);
+}
+.promise{ text-align:center; }
+.promise__icon{
+  display:block;
+  width:34px; height:34px;
+  margin:0 auto 20px;
+  transition:transform .7s var(--ease);
+}
+.promise__icon img{ width:100%; height:100%; object-fit:contain; }
+.promise:hover .promise__icon{ transform:translateY(-3px) scale(1.07); }
+
+.promise__title{
+  font-family:var(--ff-ui);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:14px;
+}
+.promise__copy{
+  font-size:12.5px;
+  line-height:1.85;
+  color:var(--muted);
+  max-width:30ch;
+  margin-inline:auto;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:960px){
+  /* stages become a single left-railed column */
+  .stages__rail{ left:5px; transform:none; }
+  .stage,
+  .stage--flip{
+    grid-template-columns:1fr;
+    gap:20px;
+    padding-left:34px;
+  }
+  .stage__text,
+  .stage--flip .stage__text{ text-align:left; order:-1; }
+  .stage__copy,
+  .stage--flip .stage__copy{ margin-left:0; margin-right:0; }
+
+  .mosaic{ grid-template-columns:1fr 1fr; }
+  .mosaic__tall{ grid-row:auto; grid-column:1 / -1; min-height:clamp(300px, 52vw, 420px); }
+
+  .knot-grid{ grid-template-columns:1fr; gap:34px; }
+  .knot-visual__media{ max-width:100%; }
+  .knot-quote{ position:static; width:auto; margin-top:-30px; margin-left:auto; max-width:88%; }
+  .knot-visual{ padding-bottom:0; }
+
+  .artisan-grid{ grid-template-columns:1fr; gap:32px; }
+  .artisan-media{ order:-1; aspect-ratio:16 / 11; }
+
+  .land-grid{ grid-template-columns:1fr; gap:32px; }
+}
+
+@media (max-width:720px){
+  .craft-banner{ min-height:clamp(340px, 62vh, 460px); }
+
+  .mosaic{ grid-template-columns:1fr; }
+  .mosaic__img{ min-height:clamp(190px, 46vw, 260px); }
+
+  .artisan-facts{ grid-template-columns:1fr; }
+
+  .land-strip{ grid-template-columns:1fr 1fr; }
+  .land-strip figure:first-child{ grid-column:1 / -1; aspect-ratio:16 / 10; }
+
+  .promise-grid{ grid-template-columns:1fr; gap:34px; }
+  .promise{ text-align:left; }
+  .promise__icon{ margin-inline:0; }
+  .promise__copy{ margin-inline:0; max-width:none; }
+
+  .stat{ flex-direction:column; gap:8px; }
+}
