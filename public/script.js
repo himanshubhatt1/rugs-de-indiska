@@ -19,7 +19,6 @@
 
     var loaderShownAt = Date.now();
     var LOADER_MIN    = 550;   // don't let it flash on a warm cache
-    var LEAVE_MS      = 420;   // time the exit animation gets before we navigate
 
     var hideLoader = function () {
       var wait = Math.max(0, LOADER_MIN - (Date.now() - loaderShownAt));
@@ -31,30 +30,6 @@
 
     if (document.readyState === 'complete') hideLoader();
     else window.addEventListener('load', hideLoader);
-
-    // Re-raise the overlay when leaving for another page on this site.
-    document.addEventListener('click', function (e) {
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-      if (!a || a.hasAttribute('download')) return;
-      if (a.target && a.target !== '_self') return;
-
-      var url;
-      try { url = new URL(a.getAttribute('href'), location.href); } catch (_) { return; }
-
-      // note: on file:// both origins read as "null", so this still matches
-      if (url.origin !== location.origin) return;
-      if (url.href === location.href) return;
-      // in-page anchor — let the browser scroll, no overlay
-      if (url.pathname === location.pathname && url.hash) return;
-
-      e.preventDefault();
-      loader.classList.remove('is-done');
-      loader.classList.add('is-leaving');
-      window.setTimeout(function () { location.href = url.href; }, LEAVE_MS);
-    });
 
     // Restored from the back/forward cache: the overlay must not still be up.
     window.addEventListener('pageshow', function (e) {

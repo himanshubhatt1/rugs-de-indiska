@@ -1,4 +1,5 @@
 import Script from "next/script";
+import ClientNavigation from "@/components/ClientNavigation";
 
 export const metadata = {
   title: {
@@ -14,7 +15,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="has-loader">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -23,10 +24,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
         <link rel="stylesheet" href="/styles.css" />
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('has-loader');" }} />
       </head>
       <body>
         {children}
+        <ClientNavigation />
         <Script src="/script.js" strategy="afterInteractive" />
       </body>
     </html>
