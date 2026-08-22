@@ -128,21 +128,11 @@
   position:relative;
   overflow:visible;
 }
-.consultation__media::after{
-  content:"";
-  position:absolute;
-  left:-34px;
-  bottom:-30px;
-  width:210px;
-  height:150px;
-  border:1px solid var(--hair);
-  z-index:-1;
-}
+
 .consultation__media img{
   width:100%;
   aspect-ratio:1039 / 818;
   object-fit:cover;
-  background:var(--sand);
 }
 
 /* ============================================================
@@ -266,14 +256,16 @@
   padding-block:clamp(76px, 8vw, 118px);
   text-align:center;
 }
-.legacy__mark{
+.legacy::before{
+  content:"";
   position:absolute;
-  left:50%;
-  top:50%;
-  width:min(480px, 66vw);
-  aspect-ratio:1;
-  transform:translate(-50%, -50%) rotate(45deg);
-  border:1px solid rgba(176,141,79,.08);
+  inset:clamp(0px, 0vw, 0px);
+  background:url("/images/pattern.png") center / contain no-repeat;
+  mix-blend-mode:multiply;
+  pointer-events:none;
+}
+.legacy__mark{
+  display:none;
 }
 .legacy__mark::before,
 .legacy__mark::after{
