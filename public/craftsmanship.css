@@ -300,7 +300,7 @@
   mix-blend-mode:normal;
   opacity:.07;
   width:min(660px, 122%);
-  background-image:url("images/pattern_2.png");
+  background-image:url("images/pattern_2.webp");
 }
 .artisan-grid{
   position:relative;

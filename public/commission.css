@@ -97,7 +97,7 @@
   height:11px;
   transition:transform .5s var(--ease);
 }
-.commission-btn:hover{ background:var(--gold); transform:translateY(-2px); }
+.commission-btn:hover{ background:var(--navy-2); transform:translateY(-2px); }
 .commission-btn:hover svg{ transform:translateX(6px); }
 
 /* ============================================================
@@ -260,7 +260,7 @@
   content:"";
   position:absolute;
   inset:clamp(0px, 0vw, 0px);
-  background:url("/images/pattern.png") center / contain no-repeat;
+  background:url("/images/pattern.avif") center / contain no-repeat;
   mix-blend-mode:multiply;
   pointer-events:none;
 }
