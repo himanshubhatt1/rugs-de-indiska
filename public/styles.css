@@ -26,8 +26,8 @@
 
   /* Cormorant Garamond carries every heading; Public Sans every body copy,
      label, and UI string. */
-  --ff-display: "Cormorant Garamond", "Times New Roman", serif;
-  --ff-ui:      "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --ff-display: var(--font-display), "Times New Roman", serif;
+  --ff-ui:      var(--font-ui), "Helvetica Neue", Arial, sans-serif;
 
   --ease:       cubic-bezier(.22, 1, .36, 1);
   --ease-soft:  cubic-bezier(.4, 0, .2, 1);
@@ -278,10 +278,10 @@ button{ background:none; border:0; cursor:pointer; }
   background:var(--navy);
   border-color:var(--navy);
   color:#fff;
-  --btn-bg:var(--gold);
+  --btn-bg:var(--navy-2);
 }
 .btn--navy:hover,
-.btn--navy:focus-visible{ color:#fff; border-color:var(--gold); }
+.btn--navy:focus-visible{ color:#fff; border-color:var(--navy-2); }
 .btn--navy svg{
   width:20px; height:10px;
   transition:transform .5s var(--ease);
@@ -700,7 +700,7 @@ button{ background:none; border:0; cursor:pointer; }
   transform:translate(-50%, -50%);
   pointer-events:none;
   mix-blend-mode:multiply;
-  background:url("images/pattern.png") center / contain no-repeat;
+  background:url("images/pattern.avif") center / contain no-repeat;
 }
 
 /* No z-index here: it would create a stacking context and isolate the

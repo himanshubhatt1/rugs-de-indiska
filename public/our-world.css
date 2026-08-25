@@ -289,7 +289,7 @@
   inset:auto -80px -130px auto;
   width:280px;
   height:280px;
-  background:url("images/pattern.png") center / contain no-repeat;
+  background:url("images/pattern.avif") center / contain no-repeat;
   opacity:.035;
   pointer-events:none;
 }
@@ -409,7 +409,7 @@
   top:.54em;
   width:13px;
   height:13px;
-  background:url("images/Icon%20(1).png") center / contain no-repeat;
+  background:url("images/Icon%20(1).webp") center / contain no-repeat;
   filter:var(--tint-gold);
 }
 

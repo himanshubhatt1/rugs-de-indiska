@@ -153,7 +153,7 @@ export default function ClientNavigation() {
 
       section.querySelectorAll(".project-card").forEach((card, index) => {
         const [image, title, alt] = category.projects[index];
-        card.querySelector("img").src = `/images/${encodeURIComponent(image)}`;
+        card.querySelector("img").src = `/images/${encodeURIComponent(image.replace(/\.png$/i, ".webp"))}`;
         card.querySelector("img").alt = alt;
         card.querySelector("h3").textContent = title;
       });

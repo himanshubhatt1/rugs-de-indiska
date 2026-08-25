@@ -1,5 +1,19 @@
 import Script from "next/script";
+import { Cormorant_Garamond, Public_Sans } from "next/font/google";
 import ClientNavigation from "@/components/ClientNavigation";
+
+const displayFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-display"
+});
+
+const uiFont = Public_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-ui"
+});
 
 export const metadata = {
   title: {
@@ -15,14 +29,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="has-loader">
+    <html lang="en" className={`has-loader ${displayFont.variable} ${uiFont.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Public+Sans:wght@300;400;500&display=swap"
-          rel="stylesheet"
-        />
         <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>

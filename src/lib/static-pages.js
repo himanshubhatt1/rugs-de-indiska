@@ -65,13 +65,80 @@ function rewriteAssetPaths(markup) {
     .replace(/url\(["']?images\//gi, 'url("/images/');
 }
 
+function getImageDimensions(src) {
+  if (!src.startsWith("/images/")) return null;
+
+  let fileName;
+  try {
+    fileName = decodeURIComponent(src.slice("/images/".length));
+  } catch {
+    return null;
+  }
+
+  const imagesDirectory = path.join(process.cwd(), "public", "images");
+  const filePath = path.join(imagesDirectory, fileName);
+  if (!filePath.startsWith(`${imagesDirectory}${path.sep}`) || !fs.existsSync(filePath)) return null;
+
+  const extension = path.extname(filePath).toLowerCase();
+  const file = fs.readFileSync(filePath);
+
+  if (extension === ".png" && file.length >= 24) {
+    return { width: file.readUInt32BE(16), height: file.readUInt32BE(20) };
+  }
+
+  if (extension === ".svg") {
+    const svgTag = file.toString("utf8").match(/<svg\b[^>]*>/i)?.[0] || "";
+    const width = Number.parseFloat(svgTag.match(/\bwidth=["']([\d.]+)/i)?.[1]);
+    const height = Number.parseFloat(svgTag.match(/\bheight=["']([\d.]+)/i)?.[1]);
+
+    if (width > 0 && height > 0) return { width, height };
+
+    const viewBox = svgTag.match(/\bviewBox=["'][^"']*?([\d.]+)\s+([\d.]+)["']/i);
+    if (viewBox) return { width: Number(viewBox[1]), height: Number(viewBox[2]) };
+  }
+
+  return null;
+}
+
+function addImageDimensions(markup) {
+  return markup.replace(/<img\b([^>]*\bsrc=["']([^"']+)["'][^>]*)>/gi, (tag, attributes, src) => {
+    if (/\bwidth\s*=|\bheight\s*=/i.test(attributes)) return tag;
+
+    const dimensions = getImageDimensions(src);
+    if (!dimensions) return tag;
+
+    return `<img${attributes} width="${dimensions.width}" height="${dimensions.height}">`;
+  });
+}
+
+function preferOptimizedImages(markup) {
+  return markup.replace(/(<img\b[^>]*\bsrc=["']\/images\/)([^"']+)\.png(["'][^>]*>)/gi, (
+    tag,
+    prefix,
+    fileName,
+    suffix
+  ) => {
+    let decodedName;
+    try {
+      decodedName = decodeURIComponent(fileName);
+    } catch {
+      return tag;
+    }
+
+    const webpPath = path.join(process.cwd(), "public", "images", `${decodedName}.webp`);
+    return fs.existsSync(webpPath) ? `${prefix}${fileName}.webp${suffix}` : tag;
+  });
+}
+
 function stripOriginalScripts(markup) {
   return markup.replace(/<script\s+src=["']script\.js["']\s*><\/script>/gi, "");
 }
 
 export function getStaticPage(pageKey) {
   const body = extractBody(readHtml(pageKey));
-  const html = stripOriginalScripts(rewriteAssetPaths(rewriteRoutes(body.html)));
+  const html = preferOptimizedImages(
+    addImageDimensions(stripOriginalScripts(rewriteAssetPaths(rewriteRoutes(body.html))))
+  );
 
   return {
     className: body.className,
