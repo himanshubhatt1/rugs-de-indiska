@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Rugs De Indiska</title>
+<meta name="description" content="Rugs De Indiska admin panel for reviewing private collection access users.">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-page">
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <img class="loader__logo" src="images/Rugs de indiska baize 2.svg" alt="">
+    <span class="loader__bar"><i></i></span>
+  </div>
+</div>
+
+<a class="skip-link" href="#adminPanel">Skip to content</a>
+
+<header class="site-header" id="siteHeader"></header>
+
+<main id="top">
+  <section class="admin-hero" id="adminPanel">
+    <div class="admin-hero__media" aria-hidden="true">
+      <img src="images/craft_ghat.png" alt="">
+    </div>
+    <div class="admin-hero__scrim"></div>
+
+    <div class="shell admin-hero__inner">
+      <div class="admin-panel" data-admin-panel>
+        <div class="admin-panel__top">
+          <div>
+            <p class="eyebrow eyebrow--gold">Private Access</p>
+            <h1>Admin Panel</h1>
+            <p class="admin-panel__lede">Review collection access profiles captured from the client login flow.</p>
+          </div>
+          <div class="admin-panel__actions">
+            <span class="admin-panel__session" data-admin-session>Not signed in</span>
+            <button type="button" class="btn btn--navy btn--sm" data-admin-refresh>Refresh</button>
+            <button type="button" class="admin-panel__link" data-admin-logout hidden>Sign out</button>
+          </div>
+        </div>
+
+        <form class="admin-login" data-admin-login novalidate>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn btn--navy">Login</button>
+          <p class="admin-msg" role="status" data-admin-msg></p>
+        </form>
+
+        <div class="admin-summary" aria-label="User summary">
+          <article>
+            <span data-admin-total>0</span>
+            <p>Total users</p>
+          </article>
+          <article>
+            <span data-admin-heritage>0</span>
+            <p>Heritage Revived</p>
+          </article>
+          <article>
+            <span data-admin-jaipur>0</span>
+            <p>Jaipur</p>
+          </article>
+        </div>
+
+        <div class="admin-table" role="region" aria-label="Registered users" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Collection</th>
+                <th>Notes</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody data-admin-users>
+              <tr>
+                <td colspan="6">Login to load users.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" id="contact"></footer>
+<script src="script.js"></script>
+</body>
+</html>
