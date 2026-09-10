@@ -9,7 +9,10 @@ const PAGE_FILES = {
   journal: "journal.html",
   project: "project.html",
   commission: "commission.html",
-  contact: "contact.html"
+  admin: "admin.html",
+  contact: "contact.html",
+  "privacy-policy": "privacy-policy.html",
+  "terms-and-conditions": "terms-and-conditions.html"
 };
 
 const ROUTE_BY_FILE = {
@@ -20,7 +23,10 @@ const ROUTE_BY_FILE = {
   "journal.html": "/journal",
   "project.html": "/project",
   "commission.html": "/commission",
-  "contact.html": "/contact"
+  "admin.html": "/admin",
+  "contact.html": "/contact",
+  "privacy-policy.html": "/privacy-policy",
+  "terms-and-conditions.html": "/terms-and-conditions"
 };
 
 function readHtml(pageKey) {
@@ -47,15 +53,17 @@ function extractBody(html) {
 }
 
 function rewriteRoutes(markup) {
-  return markup.replace(
-    /\b(href)=["']([^"']+\.html(?:#[^"']*)?)["']/gi,
-    (match, attr, href) => {
-      const [fileName, hash = ""] = href.split("#");
-      const route = ROUTE_BY_FILE[fileName];
+  return markup
+    .replace(/\bhref=["']#["']/gi, 'href="contact.html"')
+    .replace(
+      /\b(href)=["']([^"']+\.html(?:#[^"']*)?)["']/gi,
+      (match, attr, href) => {
+        const [fileName, hash = ""] = href.split("#");
+        const route = ROUTE_BY_FILE[fileName];
 
-      return route ? `${attr}="${route}${hash ? `#${hash}` : ""}"` : match;
-    }
-  );
+        return route ? `${attr}="${route}${hash ? `#${hash}` : ""}"` : match;
+      }
+    );
 }
 
 function rewriteAssetPaths(markup) {
@@ -63,6 +71,35 @@ function rewriteAssetPaths(markup) {
     .replace(/\b(src)=["']images\//gi, '$1="/images/')
     .replace(/\b(href)=["']images\//gi, '$1="/images/')
     .replace(/url\(["']?images\//gi, 'url("/images/');
+}
+
+function applySharedHeader(markup) {
+  const homeMarkup = extractBody(readHtml("home")).html;
+  const sharedHeader = homeMarkup.match(/<header\b[\s\S]*?<\/header>/i)?.[0];
+  if (!sharedHeader) throw new Error("The shared header is missing from the home page.");
+
+  return markup.replace(/<header\b[\s\S]*?<\/header>/i, sharedHeader);
+}
+
+function applySharedFooter(markup) {
+  const homeMarkup = extractBody(readHtml("home")).html;
+  const sharedFooter = homeMarkup.match(/<footer\b[\s\S]*?<\/footer>/i)?.[0];
+  if (!sharedFooter) throw new Error("The shared footer is missing from the home page.");
+
+  return markup.replace(/<footer\b[\s\S]*?<\/footer>/i, sharedFooter);
+}
+
+function addFooterNavigation(markup) {
+  return markup.replace(
+    /(<nav\b[^>]*aria-label=["']Atelier["'][\s\S]*?<ul>)([\s\S]*?)(<\/ul>)/i,
+    (nav, opening, links, closing) => {
+      if (/project\.html|commission\.html/i.test(links)) return nav;
+
+      return `${opening}${links}
+        <li><a href="project.html">Projects</a></li>
+        <li><a href="commission.html">Commission</a></li>${closing}`;
+    }
+  );
 }
 
 function getImageDimensions(src) {
@@ -137,7 +174,13 @@ function stripOriginalScripts(markup) {
 export function getStaticPage(pageKey) {
   const body = extractBody(readHtml(pageKey));
   const html = preferOptimizedImages(
-    addImageDimensions(stripOriginalScripts(rewriteAssetPaths(rewriteRoutes(body.html))))
+    addImageDimensions(
+      stripOriginalScripts(
+        rewriteAssetPaths(
+          rewriteRoutes(addFooterNavigation(applySharedFooter(applySharedHeader(body.html))))
+        )
+      )
+    )
   );
 
   return {

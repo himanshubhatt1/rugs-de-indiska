@@ -317,7 +317,9 @@ button{ background:none; border:0; cursor:pointer; }
   align-items:center;
   color:#fff;
   transition:height .5s var(--ease), background-color .5s var(--ease),
-             color .5s var(--ease), box-shadow .5s var(--ease);
+             color .5s var(--ease), box-shadow .5s var(--ease),
+             transform .55s var(--ease);
+  will-change:transform;
 }
 .site-header::after{
   content:"";
@@ -328,15 +330,12 @@ button{ background:none; border:0; cursor:pointer; }
 }
 .site-header.is-stuck{
   height:70px;
-  background:rgba(250,247,241,.94);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:var(--cream);
   color:var(--ink);
-  box-shadow:0 1px 0 var(--hair);
+  box-shadow:none;
 }
 .site-header.is-stuck::after{ opacity:0; }
 .site-header.is-hidden{ transform:translateY(-100%); }
-.site-header{ transition-property:height,background-color,color,box-shadow,transform; }
 
 .header-inner{
   display:flex;
@@ -390,6 +389,11 @@ button{ background:none; border:0; cursor:pointer; }
 }
 .nav__list a:hover{ opacity:1; }
 .nav__list a:hover::after{ transform:scaleX(1); transform-origin:left center; }
+.nav__list a[aria-current="page"]{ opacity:1; }
+.nav__list a[aria-current="page"]::after{
+  transform:scaleX(1);
+  transform-origin:left center;
+}
 
 .header-actions{ display:flex; align-items:center; gap:22px; flex:0 0 auto; }
 .nav__bespoke{
@@ -1018,12 +1022,12 @@ button{ background:none; border:0; cursor:pointer; }
   display:flex; flex-direction:column; align-items:center;
   padding-block:clamp(60px, 7vw, 90px);
 }
-/* footer_logo.png is the full lockup (mark + wordmark + tagline). Capped at
-   its native 173px so it stays crisp rather than being scaled up. */
 .cta__logo{
-  width:clamp(124px, 12vw, 164px);
+  width:clamp(170px, 15vw, 220px);
+  max-width:70vw;
   height:auto;
-  margin-bottom:clamp(20px, 2.4vw, 30px);
+  object-fit:contain;
+  margin-bottom:clamp(12px, 1.6vw, 20px);
 }
 .cta__title{
   font-family:var(--ff-display);

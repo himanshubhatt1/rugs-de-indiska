@@ -63,6 +63,100 @@ export default function ClientNavigation() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const header = document.querySelector("#siteHeader");
+    const burger = document.querySelector("#burger");
+    const nav = document.querySelector("#primaryNav");
+    if (!header) return;
+
+    let lastScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    let ticking = false;
+
+    const updateHeader = () => {
+      const currentScrollY = Math.max(0, window.scrollY || window.pageYOffset || 0);
+      const delta = currentScrollY - lastScrollY;
+      const navIsOpen = nav?.classList.contains("is-open");
+
+      header.classList.toggle("is-stuck", currentScrollY > 60);
+
+      if (navIsOpen || currentScrollY <= 10) {
+        header.classList.remove("is-hidden");
+      } else if (delta > 6 && currentScrollY > header.offsetHeight) {
+        header.classList.add("is-hidden");
+      } else if (delta < -6) {
+        header.classList.remove("is-hidden");
+      }
+
+      if (Math.abs(delta) > 1) lastScrollY = currentScrollY;
+    };
+
+    const scheduleHeaderUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateHeader();
+        ticking = false;
+      });
+    };
+
+    const closeNav = () => {
+      nav?.classList.remove("is-open");
+      burger?.classList.remove("is-open");
+      burger?.setAttribute("aria-expanded", "false");
+      burger?.setAttribute("aria-label", "Open menu");
+      document.body.classList.remove("nav-open");
+    };
+
+    const toggleNav = () => {
+      if (!nav || !burger) return;
+      const open = nav.classList.toggle("is-open");
+      burger.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", String(open));
+      burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.classList.toggle("nav-open", open);
+      if (open) header.classList.remove("is-hidden");
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeNav();
+    };
+
+    const navLinks = nav ? [...nav.querySelectorAll("a")] : [];
+    const primaryNavLinks = nav ? [...nav.querySelectorAll(".nav__list a[href]")] : [];
+
+    const normalizePath = (path) => (path !== "/" ? path.replace(/\/$/, "") : path);
+    const currentPath = normalizePath(pathname);
+    primaryNavLinks.forEach((link) => {
+      let linkPath;
+      try {
+        linkPath = normalizePath(new URL(link.getAttribute("href"), window.location.origin).pathname);
+      } catch {
+        link.removeAttribute("aria-current");
+        return;
+      }
+
+      if (linkPath === currentPath) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    window.addEventListener("scroll", scheduleHeaderUpdate, { passive: true });
+    burger?.addEventListener("click", toggleNav);
+    navLinks.forEach((link) => link.addEventListener("click", closeNav));
+    document.addEventListener("keydown", handleKeyDown);
+    updateHeader();
+
+    return () => {
+      window.removeEventListener("scroll", scheduleHeaderUpdate);
+      burger?.removeEventListener("click", toggleNav);
+      navLinks.forEach((link) => link.removeEventListener("click", closeNav));
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.classList.remove("nav-open");
+    };
+  }, [pathname]);
+
+  useEffect(() => {
     const handleClick = (event) => {
       if (event.defaultPrevented || event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;

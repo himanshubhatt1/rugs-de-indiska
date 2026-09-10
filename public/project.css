@@ -4,21 +4,6 @@
 
 .project-page{
   background:#fff;
-  --header-h:64px;
-}
-.project-page .brand__mark{
-  width:60px;
-}
-.project-page .site-header.is-stuck .brand__mark{
-  width:58px;
-}
-.project-page .header-actions .btn--sm{
-  padding:7px 14px;
-  font-size:9px;
-}
-.project-page .nav__list a,
-.project-page .nav__bespoke{
-  font-size:9.5px;
 }
 
 .project-hero{

@@ -63,18 +63,6 @@
 
 <main id="top">
 
-  <!-- ==================== BANNER ==================== -->
-  <section class="page-banner">
-    <h1 class="sr-only">Collections</h1>
-    <!-- drift on the wrapper, zoom-in on the image: a CSS animation with
-         fill `both` would otherwise override the transform JS writes here -->
-    <div class="page-banner__media" data-parallax="0.16">
-      <img src="images/collection_banner.png"
-           alt="A weaver unrolling a finished rug on the ghats at first light">
-    </div>
-  </section>
-
-
   <!-- ==================== VOLUMES ==================== -->
   <!-- No .shell here: the photographs run to the viewport edge, so the grid is
        full-width and the text columns carry the gutter themselves. -->
@@ -110,10 +98,10 @@
             </li>
           </ul>
 
-          <a href="#contact" class="btn btn--navy reveal" style="--d:300ms">
+          <button type="button" class="btn btn--navy reveal" style="--d:300ms" data-collection-auth-open data-collection-title="Heritage Revived">
             Explore Collection
             <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-          </a>
+          </button>
         </div>
       </article>
 
@@ -137,10 +125,10 @@
             </li>
           </ul>
 
-          <a href="#contact" class="btn btn--navy reveal" style="--d:300ms">
+          <button type="button" class="btn btn--navy reveal" style="--d:300ms" data-collection-auth-open data-collection-title="Jaipur">
             Explore Collection
             <svg viewBox="0 0 24 12" aria-hidden="true"><path d="M0 6h22M17 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
-          </a>
+          </button>
         </div>
 
         <figure class="volume__media reveal-img">
@@ -219,22 +207,112 @@
   <!-- ==================== CTA BAND ==================== -->
   <section class="cta" id="cta">
     <div class="cta__media">
-      <img src="images/247c1cad698eb3c9fd6dce74c334dc32a22f5eae.png" alt="" id="ctaImg">
+      <img src="images/cta-collections-ai.png" alt="A refined gallery room with multiple hand-knotted rug collections on display" id="ctaImg">
     </div>
     <div class="cta__scrim"></div>
 
     <div class="shell cta__inner">
-      <img src="images/footer_logo.png" alt="Rugs de Indiska" class="cta__logo reveal">
-      <h2 class="cta__title reveal" style="--d:140ms">Timeless in Spirit. Eternal in Craft.</h2>
+      <img src="images/Group%201686566836.svg" alt="Rugs de Indiska" class="cta__logo reveal">
+      <h2 class="cta__title reveal" style="--d:140ms">Enter the Private Collection Room.</h2>
       <p class="cta__copy reveal" style="--d:220ms">
-        Rooted in centuries of tradition, every rug is handcrafted with dedication and
-        precision. Each weave celebrates authentic craftsmanship, carrying the legacy
-        of artisans into modern homes.
+        View selected volumes, compare palettes and materials, and request access
+        to the pieces reserved for private presentation.
       </p>
     </div>
   </section>
 
 </main>
+
+<div class="collection-modal" id="collectionAuthModal" role="dialog" aria-modal="true" aria-labelledby="collectionAccessTitle" aria-hidden="true">
+  <div class="collection-modal__overlay" data-collection-auth-close></div>
+
+  <div class="collection-modal__dialog" role="document">
+    <button type="button" class="collection-modal__close" aria-label="Close collection access" data-collection-auth-close>
+      <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 3l12 12M15 3L3 15" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="collection-modal__media" aria-hidden="true">
+      <img src="images/Master Weaver Portrait.png" alt="">
+    </div>
+
+    <div class="collection-modal__panel">
+      <div class="collection-auth" data-collection-auth-panel>
+        <p class="eyebrow eyebrow--gold">Private Access</p>
+        <h2 class="collection-modal__title" id="collectionAccessTitle">Explore Heritage Revived</h2>
+        <p class="collection-modal__copy">Enter your contact details to view selected volumes, materials, palettes, and private viewing notes.</p>
+
+        <div class="collection-auth__tabs" role="tablist" aria-label="Collection access">
+          <button type="button" class="is-active" id="collectionRegisterTab" role="tab" aria-selected="true" aria-controls="collectionRegisterForm" data-auth-mode="register">Create account</button>
+          <button type="button" id="collectionLoginTab" role="tab" aria-selected="false" aria-controls="collectionLoginForm" data-auth-mode="login">Already have account</button>
+        </div>
+
+        <form class="collection-auth__form" id="collectionRegisterForm" data-collection-register novalidate>
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" inputmode="email" required>
+          </label>
+          <label>
+            <span>Phone number</span>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" pattern="^\+?[0-9 ()\-.]{10,20}$" title="Enter a valid phone number with 10 to 15 digits." required>
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+          </label>
+          <div class="collection-auth__field collection-auth__field--select">
+            <span id="collectionPreferenceLabel">Preferred collection</span>
+            <input type="hidden" name="collection" value="Heritage Revived">
+            <div class="collection-auth-select" data-auth-select>
+              <button type="button" class="collection-auth-select__button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="collectionPreferenceLabel" data-auth-select-toggle>
+                <span data-auth-select-value>Heritage Revived</span>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="collection-auth-select__menu" role="listbox" aria-labelledby="collectionPreferenceLabel">
+                <button type="button" role="option" aria-selected="true" data-auth-select-option data-value="Heritage Revived">Heritage Revived</button>
+                <button type="button" role="option" aria-selected="false" data-auth-select-option data-value="Jaipur">Jaipur</button>
+                <button type="button" role="option" aria-selected="false" data-auth-select-option data-value="Signature Collection">Signature Collection</button>
+                <button type="button" role="option" aria-selected="false" data-auth-select-option data-value="Bespoke Creations">Bespoke Creations</button>
+              </div>
+            </div>
+          </div>
+          <label class="collection-auth__wide">
+            <span>Project notes</span>
+            <textarea name="notes" rows="3" placeholder="Room size, timeline, or palette preference"></textarea>
+          </label>
+          <button type="submit" class="btn btn--navy">View Collection</button>
+          <p class="collection-auth__msg" role="status" data-collection-auth-msg></p>
+        </form>
+
+        <form class="collection-auth__form is-hidden" id="collectionLoginForm" data-collection-login novalidate>
+          <label class="collection-auth__wide">
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label class="collection-auth__wide">
+            <span>Password</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn btn--navy">Login &amp; View Collection</button>
+          <p class="collection-auth__msg" role="status" data-collection-login-msg></p>
+        </form>
+      </div>
+
+      <div class="collection-access is-hidden" data-collection-view>
+        <p class="eyebrow eyebrow--gold">Access Approved</p>
+        <h2 class="collection-modal__title">Opening Private Portal</h2>
+        <p class="collection-modal__copy">Your login has been accepted. The protected collection portal will open now.</p>
+        <div class="collection-access__actions">
+          <a href="/collections/portal" class="btn btn--navy">Open Portal</a>
+          <button type="button" class="collection-access__link" data-collection-logout>Sign out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- ==================== FOOTER ==================== -->
